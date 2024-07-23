@@ -38,7 +38,7 @@ jobs:
         run: python -m pip install --upgrade pip setuptools wheel
 
       - name: setup art server
-        run : jf c add server --interactive=false --url=${{ vars.JF_URL }} --access-token =${{ secrets.JF_ACCESS_TOKEN }} && jf c use eco
+        run : jf c add server --interactive=false --url=${{ vars.JF_URL }} --access-token =${{ secrets.JF_ACCESS_TOKEN }} && jf c use server
 
       - name: Install npm
         uses: actions/setup-node@v4
