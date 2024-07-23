@@ -15,6 +15,12 @@ jobs:
         with:
           repository: 'eyaldelarea/jfrog-cli'
           ref: 'job_summaries'
+      - name: build cli
+        run: ./build/build.sh jf
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
       # For the cleanup
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
@@ -37,7 +43,7 @@ jobs:
 
       - name: Package managers versions
         run: |
-          jf -v
+          ./jf -v
           docker --version
           mvn -v
           python --version
@@ -52,47 +58,47 @@ jobs:
 #      - name: Docker build
 #        run: |
 #          cd docker-oci-examples/fat-manifest-example
-#          echo ${{ secrets.JF_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets.JF_USER }} --password-stdin
+#          echo ${{ secrets../jf_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets../jf_USER }} --password-stdin
 #          docker buildx install
 #          docker buildx create --use --name mybuilder --driver docker-container
-#          docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosysjfrog.jfrog.io/docker-local/multiarch-image:1 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
-#          jf rt build-docker-create docker-local --image-file build-metadata
+#          docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosys./jfrog../jfrog.io/docker-local/multiarch-image:1 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
+#          ./jf rt build-docker-create docker-local --image-file build-metadata
 #          docker buildx uninstall
 
       - name: Maven build
         run: |
           cd maven-examples/maven-example
-          jf mvnc --repo-deploy-releases=libs-release --repo-deploy-snapshots=libs-snapshot --repo-resolve-releases=libs-release --repo-resolve-snapshots=libs-snapshot
-          jf mvn clean install
+          ./jf mvnc --repo-deploy-releases=libs-release --repo-deploy-snapshots=libs-snapshot --repo-resolve-releases=libs-release --repo-resolve-snapshots=libs-snapshot
+          ./jf mvn clean install
 
       - name: Pip build
         run: |
           cd python-example/pip-example/
-          jf pip-config --repo-resolve=robi-pypi-virtual
-          jf pip install . --module=jfrog-python-example
+          ./jf pip-config --repo-resolve=robi-pypi-virtual
+          ./jf pip install . --module=./jfrog-python-example
           python setup.py sdist bdist_wheel
-          jf rt u dist/ robi-pypi-virtual/ --module=jfrog-python-example
+          ./jf rt u dist/ robi-pypi-virtual/ --module=./jfrog-python-example
 
       - name: Npm build
         run: |
           cd npm-example
-          jf npm-config --repo-resolve=robi-npm --repo-deploy=robi-npm
-          jf npm i
-          jf npm publish
+          ./jf npm-config --repo-resolve=robi-npm --repo-deploy=robi-npm
+          ./jf npm i
+          ./jf npm publish
 
       - name: Go build
         run: |
           cd golang-example
-          jf go-config --repo-resolve=robi-go --repo-deploy=robi-go
-          jf go build
-          jf go-publish v1.0.0
+          ./jf go-config --repo-resolve=robi-go --repo-deploy=robi-go
+          ./jf go build
+          ./jf go-publish v1.0.0
 
       - name: Generic build
         run: |
           cd bash-example
-          jf rt u ./deploy-file.sh generic-local-robi/ --module=generic-module
+          ./jf rt u ./deploy-file.sh generic-local-robi/ --module=generic-module
 
       - name: Publish build info
         run: |
-          jf rt bce
-          jf rt bp
+          ./jf rt bce
+          ./jf rt bp
