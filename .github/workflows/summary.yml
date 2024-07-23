@@ -12,18 +12,12 @@ jobs:
     steps:
       # For the cleanup function to show on GitHub
       - name: Setup JFrog CLI
-        uses: jfrog/setup-jfrog-cli@v4
+        uses: jfrog/setup-jfrog-cli@v
         env:
           JF_URL: ${{ vars.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-      # Build CLI with changes
-      - name: Checkout
-        uses: actions/checkout@v4
         with:
-          repository: 'eyaldelarea/jfrog-cli'
-          ref: 'job_summaries'
-      - name: build cli
-        run: ./build/build.sh jf
+          download-repository: generic-local-eyal
       # Checkout to examples repo for testings
       - name: Checkout
         uses: actions/checkout@v4
