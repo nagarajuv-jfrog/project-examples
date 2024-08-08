@@ -16,8 +16,8 @@ jobs:
         env:
           JF_URL: ${{ vars.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-        with:
-          download-repository: generic-local-eyal
+        # with:
+        #   download-repository: generic-local-eyal
       # Checkout to examples repo for testings
       - name: Checkout
         uses: actions/checkout@v4
