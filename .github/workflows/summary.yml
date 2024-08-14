@@ -98,6 +98,6 @@ jobs:
           jf rt bce
           jf rt bp
 
-      - name: Generate markdown
+      - name: Generate markdowns
         run: |
           jf csm
