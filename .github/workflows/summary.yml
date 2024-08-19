@@ -61,6 +61,13 @@ jobs:
           jf rt build-docker-create docker-local --image-file build-metadata
           docker buildx uninstall
 
+      - name: Docker build single platform
+        run: |
+          cd docker-oci-examples/docker-example
+          docker build -t ecosysjfrog.jfrog.io/docker-local/single-image:1 .
+          jf docker scan ecosysjfrog.jfrog.io/docker-local/single-image:1
+          jf docker push ecosysjfrog.jfrog.io/docker-local/single-image:1
+
       - name: Maven build
         run: |
           cd maven-examples/maven-example
