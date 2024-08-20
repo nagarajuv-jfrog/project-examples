@@ -65,7 +65,6 @@ jobs:
         run: |
           cd docker-oci-examples/docker-example
           docker build -t ecosysjfrog.jfrog.io/docker-local/single-image:1 .
-          jf docker scan ecosysjfrog.jfrog.io/docker-local/single-image:1
           jf docker push ecosysjfrog.jfrog.io/docker-local/single-image:1
 
       - name: Maven build
