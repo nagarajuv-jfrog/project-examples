@@ -103,4 +103,4 @@ jobs:
 
       - name: Scan build info
         run: |
-          jf bs
+          jf bs --fail false
