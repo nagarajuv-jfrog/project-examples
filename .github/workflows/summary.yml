@@ -62,6 +62,9 @@ jobs:
           docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosysjfrog.jfrog.io/docker-local/multi-lini:2 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
           jf rt build-docker-create docker-local --image-file build-metadata
           docker buildx uninstall
+      - name: Docker can
+        run: |
+          jf docker scan ecosysjfrog.jfrog.io/docker-local/multi-lini:2
 
       - name: Maven build
         run: |
