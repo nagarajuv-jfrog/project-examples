@@ -96,11 +96,11 @@ jobs:
           cd bash-example
           jf rt u ./deploy-file.sh generic-local-robi/ --module=generic-module
 
-      - name: Scan build info
-        run: |
-          jf bs ${{ env.BUILD_NAME }} ${{ env.BUILD_NUMBER }}}
-
       - name: Publish build info
         run: |
           jf rt bce
           jf rt bp
+
+      - name: Scan build info
+        run: |
+          jf bs ${{ env.BUILD_NAME }} ${{ env.BUILD_NUMBER }}}
