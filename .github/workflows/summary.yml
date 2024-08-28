@@ -22,9 +22,9 @@ jobs:
           download-repository: generic-local-eyal
           version: 2.63.2
 
-#
-#      - name: Checkout
-#        uses: actions/checkout@v4
+
+      - name: Checkout
+        uses: actions/checkout@v4
 #
 #      - name: Setup Python3
 #        uses: actions/setup-python@v5
