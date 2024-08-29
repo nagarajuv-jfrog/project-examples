@@ -12,6 +12,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
+      # setup to use the cleanup function
       - name: Setup JFrog CLI
         uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
         env:
@@ -19,31 +20,32 @@ jobs:
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JFROG_CLI_LOG_LEVEL: DEBUG
           JF_PROJECT: jobsummary
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          download-repository: generic-local-eyal
-          version: 2.63.2
-      #
-      #      - name: Setup Go
-      #        uses: actions/setup-go@v5
-      #        with:
-      #          go-version: 1.22.x
-      #
-      #      - name: Checkout code
-      #        uses: actions/checkout@v4
-      #        with:
-      #          repository: "eyaldelarea/jfrog-cli"
-      #          ref: "new_summary_ui"
-      #
-      #      - name: Build current CLI
-      #        run: go build .
+          go-version: 1.22.x
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: "eyaldelarea/jfrog-cli"
+          ref: "new_summary_ui"
+
+      - name: Build current CLI
+        run: go build .
 
       - name: Checkout to project examples repository
         uses: actions/checkout@v4
         with:
           path: new-checkout-directory
 
+      - name: Build current CLI
+        run: ../jf version
+
       - name: Docker build
         run: |
+          alias jf=../jf
           cd new-checkout-directory/docker-oci-examples/fat-manifest-example
           echo ${{ secrets.JF_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets.JF_USER }} --password-stdin
           docker buildx install
@@ -54,5 +56,6 @@ jobs:
 
       - name: Docker Scan
         run: |
+          alias jf=../jf
           jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
           jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
