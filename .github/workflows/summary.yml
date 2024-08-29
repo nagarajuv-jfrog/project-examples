@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       # setup to use the cleanup function
@@ -40,7 +40,7 @@ jobs:
         with:
           path: new-checkout-directory
 
-      - name: Build current CLI
+      - name: check for executable
         run: pwd && ls -la ../.
 
 #      - name: Docker build
