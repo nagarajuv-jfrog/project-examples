@@ -34,10 +34,12 @@ jobs:
         with:
           node-version: "16"
 
+          # jf npm-config --repo-resolve=npm-eyalde --repo-deploy=npm-eyalde
       - name: Npm build
         run: |
           cd npm-example
-          jf npm-config --repo-resolve=npm-eyalde --repo-deploy=npm-eyalde
+
+          jf npm-config --repo-resolve=npm-robi --repo-deploy=npm-robi
           jf ca
 
       - name: Docker build
