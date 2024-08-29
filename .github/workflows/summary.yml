@@ -19,8 +19,8 @@ jobs:
       - name: Setup JFrog CLI
         uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
         env:
-          JF_URL: ${{ vars.JF_URL }}
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_URL: https://ecosysjfrog.jfrog.io/
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ECO_ACCESS_TOKEN }}
           JFROG_CLI_LOG_LEVEL: DEBUG
         with:
           download-repository: generic-local-eyal
