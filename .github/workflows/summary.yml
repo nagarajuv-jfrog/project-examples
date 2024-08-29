@@ -72,7 +72,7 @@ jobs:
       - name: Docker Scan
         run: |
           jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
-          jf docker scan --vuln=true  ecosysjfrog.jfrog.io/docker-local/multi-lini:2
+          jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
 
 #      - name: Maven build
 #        run: |
