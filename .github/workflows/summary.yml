@@ -25,7 +25,6 @@ jobs:
 
       - name: Docker build
         run: |
-          alias jf=../jf
           cd new-checkout-directory/docker-oci-examples/fat-manifest-example
           echo ${{ secrets.JF_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets.JF_USER }} --password-stdin
           docker buildx install
@@ -36,6 +35,5 @@ jobs:
 
       - name: Docker Scan
         run: |
-          alias jf=../jf
           jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
           jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
