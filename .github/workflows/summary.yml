@@ -13,21 +13,31 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest,macos-latest,windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Setup JFrog CLI
-        uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
+      # Setup Go 1.22 - new version
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22.x
+      # Build specific branch of the CLI, until released.
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: "eyaldelarea/jfrog-cli"
+          ref: "new_summary_ui"
+      - name: Build current CLI
+        run: go build .
+      # Setup CLI, points to specific branch, until released.
+      - uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
         env:
           JF_URL: ${{ vars.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JFROG_CLI_LOG_LEVEL: DEBUG
           JF_PROJECT: jobsummary
-        with:
-          download-repository: generic-local-eyal
-          version: 2.63.2
 
-
+      # checkout to project examples repository
       - name: Checkout
         uses: actions/checkout@v4
 
