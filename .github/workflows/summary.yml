@@ -33,7 +33,7 @@ jobs:
           ref: "new_summary_ui"
 
       - name: Build current CLI
-        run: go build . && ls -la | grep jf
+        run: ./build/build.sh jf && pwd
 
       - name: Checkout to project examples repository
         uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
           path: new-checkout-directory
 
       - name: Build current CLI
-        run: pwd && ls -la ../
+        run: pwd && ls -la ../.
 
 #      - name: Docker build
 #        run: |
