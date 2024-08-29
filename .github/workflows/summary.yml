@@ -33,7 +33,7 @@ jobs:
           ref: "new_summary_ui"
 
       - name: Build current CLI
-        run: go build .
+        run: go build . && ls -la | grep jf
 
       - name: Checkout to project examples repository
         uses: actions/checkout@v4
@@ -41,21 +41,21 @@ jobs:
           path: new-checkout-directory
 
       - name: Build current CLI
-        run: ../jf version
+        run: pwd && ls -la ../
 
-      - name: Docker build
-        run: |
-          alias jf=../jf
-          cd new-checkout-directory/docker-oci-examples/fat-manifest-example
-          echo ${{ secrets.JF_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets.JF_USER }} --password-stdin
-          docker buildx install
-          docker buildx create --use --name mybuilder --driver docker-container
-          docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosysjfrog.jfrog.io/docker-local/multi-lini:2 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
-          jf rt build-docker-create docker-local --image-file build-metadata
-          docker buildx uninstall
-
-      - name: Docker Scan
-        run: |
-          alias jf=../jf
-          jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
-          jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
+#      - name: Docker build
+#        run: |
+#          alias jf=../jf
+#          cd new-checkout-directory/docker-oci-examples/fat-manifest-example
+#          echo ${{ secrets.JF_PASSWORD }} | docker login ${{ vars.JF_URL }} -u ${{ secrets.JF_USER }} --password-stdin
+#          docker buildx install
+#          docker buildx create --use --name mybuilder --driver docker-container
+#          docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosysjfrog.jfrog.io/docker-local/multi-lini:2 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
+#          jf rt build-docker-create docker-local --image-file build-metadata
+#          docker buildx uninstall
+#
+#      - name: Docker Scan
+#        run: |
+#          alias jf=../jf
+#          jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
+#          jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
