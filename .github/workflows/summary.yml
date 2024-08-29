@@ -18,6 +18,7 @@ jobs:
           JF_URL: ${{ vars.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JFROG_CLI_LOG_LEVEL: DEBUG
+          JF_PROJECT: jobSummaries
         with:
           download-repository: generic-local-eyal
           version: 2.63.2
