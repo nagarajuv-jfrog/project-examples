@@ -16,6 +16,13 @@ jobs:
         os: [ ubuntu-latest,macos-latest,windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
+      # Setup CLI, points to specific branch, until released.
+      - uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
+        env:
+          JF_URL: ${{ vars.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JFROG_CLI_LOG_LEVEL: DEBUG
+          JF_PROJECT: jobsummary
       # Setup Go 1.22 - new version
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -29,13 +36,6 @@ jobs:
           ref: "new_summary_ui"
       - name: Build current CLI
         run: go build .
-      # Setup CLI, points to specific branch, until released.
-      - uses: eyaldelarea/setup-jfrog-cli@improve_summary_ui
-        env:
-          JF_URL: ${{ vars.JF_URL }}
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-          JFROG_CLI_LOG_LEVEL: DEBUG
-          JF_PROJECT: jobsummary
 
       # checkout to project examples repository
       - name: Checkout
@@ -75,14 +75,14 @@ jobs:
           docker buildx install
           docker buildx create --use --name mybuilder --driver docker-container
           docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 --tag=ecosysjfrog.jfrog.io/docker-local/multi-lini:2 -f=Dockerfile.Fatmanifest --metadata-file=build-metadata --push .
-          jf rt build-docker-create docker-local --image-file build-metadata
+          ./jf rt build-docker-create docker-local --image-file build-metadata
           docker buildx uninstall
 
 
       - name: Docker Scan
         run: |
-          jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
-          jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
+          ./jf docker pull ecosysjfrog.jfrog.io/docker-local/multi-lini:2
+          ./jf docker scan --vuln=true ecosysjfrog.jfrog.io/docker-local/multi-lini:2
 
 #      - name: Maven build
 #        run: |
@@ -119,9 +119,9 @@ jobs:
 
       - name: Publish build info
         run: |
-          jf rt bce
-          jf rt bp
+          ./jf rt bce
+          ./jf rt bp
 
       - name: Scan build info
         run: |
-          jf bs --fail=false --vuln
+          ./jf bs --fail=false --vuln
