@@ -1,6 +1,8 @@
-name: "JFrog CLI Example"
+name: "Setup JFrog CLI OIDC Example"
 on: push
-
+permissions:
+  id-token: write  # Required for requesting the OIDC token
+  contents: read   # Required for actions/checkout
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,15 +12,9 @@ jobs:
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         env:
-          # JFrog platform url (for example: https://acme.jfrog.io)
-          JF_URL: ${{ secrets.JF_URL }}
-
-          # JFrog Platform access token
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-
-          # Basic authentication credentials
-          ## JF_USER: ${{ secrets.JF_USER }}
-          ## JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+          JF_URL: ${{ vars.JF_URL }}
+        with:
+          oidc-provider-name: ${OIDC_PROVIDER_NAME}
 
       - name: Run JFrog CLI
         run: |
